@@ -1,0 +1,174 @@
+{
+  "info": {
+    "name": "EduTrack API",
+    "description": "Complete Postman collection for EduTrack Attendance & Performance Tracker",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:5000/api" },
+    { "key": "token",    "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{base_url}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"email\": \"admin@school.com\", \"password\": \"admin123\" }"
+            }
+          }
+        },
+        {
+          "name": "Login (Teacher)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{base_url}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"email\": \"teacher@school.com\", \"password\": \"teacher123\" }"
+            }
+          }
+        },
+        {
+          "name": "Register New User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{base_url}}/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"name\": \"New Teacher\", \"email\": \"newteacher@school.com\", \"password\": \"pass1234\", \"role\": \"teacher\" }"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Students",
+      "item": [
+        {
+          "name": "Get All Students",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{base_url}}/students"
+          }
+        },
+        {
+          "name": "Get Students by Class",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/students?class=10-A", "query": [{ "key": "class", "value": "10-A" }] }
+          }
+        },
+        {
+          "name": "Add Student",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{base_url}}/students",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"name\": \"Rahul Kumar\", \"roll_number\": \"CS107\", \"class\": \"10-A\", \"email\": \"rahul@school.com\", \"phone\": \"9999999999\" }"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Attendance",
+      "item": [
+        {
+          "name": "Mark Attendance",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{base_url}}/attendance/mark",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"subject\": \"Mathematics\", \"date\": \"2026-04-26\", \"records\": [{ \"student_id\": 1, \"status\": \"present\" }, { \"student_id\": 2, \"status\": \"absent\" }, { \"student_id\": 3, \"status\": \"late\" }] }"
+            }
+          }
+        },
+        {
+          "name": "View Attendance (by date)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/attendance?date=2026-04-26&subject=Mathematics" }
+          }
+        },
+        {
+          "name": "Attendance Summary",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{base_url}}/attendance/summary"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Marks",
+      "item": [
+        {
+          "name": "Add Marks",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{base_url}}/marks",
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"student_id\": 1, \"subject\": \"Mathematics\", \"exam_type\": \"Midterm\", \"marks\": 88, \"max_marks\": 100 }"
+            }
+          }
+        },
+        {
+          "name": "Get All Marks",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{base_url}}/marks"
+          }
+        },
+        {
+          "name": "Performance Report",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{base_url}}/marks/report"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "item": [
+        {
+          "name": "API Health",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/health"
+          }
+        }
+      ]
+    }
+  ]
+}
